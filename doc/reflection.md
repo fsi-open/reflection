@@ -30,7 +30,7 @@ the library should look like this:
 
 First of all we need to setup the autoloading of required extensions:
 
-    $classLoader = new \FSi\Reflection('FSi\\Reflection', "/path/to/library/Reflection/lib");
+    $classLoader = new \Doctrine\Common\ClassLoader('FSi\\Reflection', "/path/to/library/Reflection/lib");
     $classLoader->register();
 
 ## Usage example {#example}
