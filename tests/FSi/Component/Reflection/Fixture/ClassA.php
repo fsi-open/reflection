@@ -1,6 +1,6 @@
 <?php
 
-namespace FSi\Reflection\Fixture;
+namespace FSi\Component\Reflection\Fixture;
 
 class ClassA
 {

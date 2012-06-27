@@ -1,6 +1,6 @@
 <?php
 
-namespace FSi\Reflection;
+namespace FSi\Component\Reflection;
 
 class ReflectionException extends \ReflectionException
 {

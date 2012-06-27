@@ -2,7 +2,7 @@
 <phpunit bootstrap="./bootstrap.php">
     <testsuites>
         <testsuite name="ReflectionTests">
-            <directory suffix=".php">./FSi/Reflection/</directory>
+            <directory suffix=".php">./FSi/Component/Reflection/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
