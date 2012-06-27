@@ -63,9 +63,22 @@ class ReflectionClass extends \ReflectionClass
         return ReflectionMethod::factory($this->name, $method);
     }
 
+    protected function filter($items, $filter)
+    {
+        $filtered = array();
+        foreach ($items as $item)
+            if ($item->getModifiers() & $filter)
+                $filtered[] = $item;
+        return $filtered;
+    }
+
     public function getMethods($filter = null)
     {
-        throw new ReflectionException('This method is not implemented due to performance reasons');
+        $methods = ReflectionMethod::factory($this->name);
+        if (isset($filter))
+            return $this->filter($methods, $filter);
+        else
+            return $methods;
     }
 
     public function getProperty($property)
@@ -75,7 +88,11 @@ class ReflectionClass extends \ReflectionClass
 
     public function getProperties($filter = null)
     {
-        throw new ReflectionException('This method is not implemented due to performance reasons');
+        $properties = ReflectionProperty::factory($this->name);
+        if (isset($filter))
+            return $this->filter($properties, $filter);
+        else
+            return $properties;
     }
 
 }

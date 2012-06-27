@@ -14,18 +14,28 @@ class ReflectionMethod extends \ReflectionMethod
         parent::__construct($class, $name);
     }
 
-    public static function factory($class, $method)
+    public static function factory($class, $method = null)
     {
         if (is_object($class))
             $class = get_class($class);
         $class = (string)$class;
-        if (!isset(self::$methods[$class][$method])) {
-            if (!isset(self::$methods[$class]))
-                self::$methods[$class] = array();
-            self::$methods[$class][$method] = new self($class, $method);
-            self::$methods[$class][$method]->setAccessible(true);
+        if (!isset(self::$methods[$class])) {
+            $classReflection = new \ReflectionClass($class);
+            $methods = $classReflection->getMethods();
+            self::$methods[$class] = array();
+            foreach ($methods as $methodReflection) {
+                self::$methods[$class][$methodReflection->name] = new self($class, $methodReflection->name);
+                self::$methods[$class][$methodReflection->name]->setAccessible(true);
+            }
         }
-        return self::$methods[$class][$method];
+        if (isset($method)) {
+            if (!isset(self::$methods[$class][$method])) {
+                self::$methods[$class][$method] = new self($class, $method);
+                self::$methods[$class][$method]->setAccessible(true);
+            }
+            return self::$methods[$class][$method];
+        } else
+            return self::$methods[$class];
     }
 
     public function getDeclaringClass()

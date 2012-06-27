@@ -14,18 +14,28 @@ class ReflectionProperty extends \ReflectionProperty
         parent::__construct($class, $name);
     }
 
-    public static function factory($class, $property)
+    public static function factory($class, $property = null)
     {
         if (is_object($class))
             $class = get_class($class);
         $class = (string)$class;
-        if (!isset(self::$properties[$class][$property])) {
-            if (!isset(self::$properties[$class]))
-                self::$properties[$class] = array();
-            self::$properties[$class][$property] = new self($class, $property);
-            self::$properties[$class][$property]->setAccessible(true);
+        if (!isset(self::$properties[$class])) {
+            $classReflection = new \ReflectionClass($class);
+            $properties = $classReflection->getProperties();
+            self::$properties[$class] = array();
+            foreach ($properties as $propertyReflection) {
+                self::$properties[$class][$propertyReflection->name] = new self($class, $propertyReflection->name);
+                self::$properties[$class][$propertyReflection->name]->setAccessible(true);
+            }
         }
-        return self::$properties[$class][$property];
+        if (isset($property)) {
+            if (!isset(self::$properties[$class][$property])) {
+                self::$properties[$class][$property] = new self($class, $property);
+                self::$properties[$class][$property]->setAccessible(true);
+            }
+            return self::$properties[$class][$property];
+        } else
+            return self::$properties[$class];
     }
 
     public function getDeclaringClass()
