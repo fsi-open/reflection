@@ -91,7 +91,7 @@ class ReflectionClass extends \ReflectionClass
      * 
      * @return array
      */
-    public function getMethods()
+    public function getMethods($filter = null)
     {
         $args = func_get_args();
         $methods = ReflectionMethod::factory($this->name);
@@ -119,7 +119,7 @@ class ReflectionClass extends \ReflectionClass
      * 
      * @return array
      */
-    public function getProperties()
+    public function getProperties($filter = null)
     {
         $args = func_get_args();
         $properties = ReflectionProperty::factory($this->name);

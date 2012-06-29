@@ -8,6 +8,7 @@
  * @link http://www.gediminasm.org
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+error_reporting(E_ALL | E_STRICT);
 
 if (!class_exists('PHPUnit_Framework_TestCase') ||
     version_compare(PHPUnit_Runner_Version::id(), '3.5') < 0
