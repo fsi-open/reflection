@@ -6,6 +6,14 @@ class ReflectionMethod extends \ReflectionMethod
 {
     protected static $methods = array();
 
+    /**
+     * Constructs a new ReflectionMethod object.
+     * 
+     * @param string|object $class
+     * @param string $name
+     * @throws ReflectionException
+     * @return ReflectionMethod
+     */
     final public function __construct($class, $name)
     {
         $bt = debug_backtrace();
@@ -14,6 +22,15 @@ class ReflectionMethod extends \ReflectionMethod
         parent::__construct($class, $name);
     }
 
+    /**
+     * Constructs a new ReflectionMethod object from method and class name.
+     * If object already exists in cache it will taken from there instead of creating
+     * new object
+     * 
+     * @param string|object $class
+     * @param string $property
+     * @return ReflectionClass
+     */
     public static function factory($class, $method = null)
     {
         if (is_object($class))
@@ -24,8 +41,12 @@ class ReflectionMethod extends \ReflectionMethod
             $methods = $classReflection->getMethods();
             self::$methods[$class] = array();
             foreach ($methods as $methodReflection) {
-                self::$methods[$class][$methodReflection->name] = new self($class, $methodReflection->name);
-                self::$methods[$class][$methodReflection->name]->setAccessible(true);
+                if ($methodReflection->class != $class) {
+                    self::$methods[$class][$methodReflection->name] = self::factory($methodReflection->class, $methodReflection->name); 
+                } else {
+                    self::$methods[$class][$methodReflection->name] = new self($class, $methodReflection->name);
+                    self::$methods[$class][$methodReflection->name]->setAccessible(true);
+                }
             }
         }
         if (isset($method)) {
@@ -35,20 +56,17 @@ class ReflectionMethod extends \ReflectionMethod
             }
             return self::$methods[$class][$method];
         } else
-            return self::$methods[$class];
+            return array_values(self::$methods[$class]);
     }
 
+    /**
+     * Get class ReflectionObject using ReflectionClass::factory method. 
+     * 
+     * @return ReflectionClass
+     */
     public function getDeclaringClass()
     {
         return ReflectionClass::factory($this->class);
     }
 
-    public function getExtension()
-    {
-        $extension = $this->getExtensionName();
-        if (isset($extension))
-            return ReflectionExtension::factory($this->getExtensionName());
-        else
-            return null;
-    }
 }

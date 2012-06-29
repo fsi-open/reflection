@@ -2,7 +2,34 @@
 
 namespace FSi\Component\Reflection\Fixture;
 
-class ClassA
+use FSi\Component\Reflection\Fixture\ClassB;
+
+interface ClassAInterface
+{
+    public function publicMethod($paramE, $paramF);
+}
+
+class ClassAParentParent
+{
+    public $publicProperty3;
+    
+    public function publicMethod3($paramE, $paramF)
+    {
+        return $paramE . '=' .$paramF;
+    }
+}
+
+class ClassAParent extends ClassAParentParent
+{
+    public $publicProperty2; 
+    
+    public function publicMethod2($paramE, $paramF)
+    {
+        return $paramE . '=' .$paramF;
+    }
+}
+
+class ClassA extends ClassAParent implements ClassAInterface
 {
     private $privateProperty;
 
