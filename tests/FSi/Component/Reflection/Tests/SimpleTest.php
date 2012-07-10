@@ -1,15 +1,18 @@
 <?php
 
-namespace FSi\Component\Reflection;
+namespace FSi\Component\Reflection\Tests;
 
-use FSi\Component\Reflection\Fixture\ClassA;
+use FSi\Component\Reflection\ReflectionClass;
+use FSi\Component\Reflection\ReflectionProperty;
+use FSi\Component\Reflection\ReflectionMethod;
+use FSi\Component\Reflection\Tests\Fixture\ClassA;
 
 class SampleTest extends \PHPUnit_Framework_TestCase
 {
     public function testClass()
     {
-        $classReflection1 = ReflectionClass::factory('FSi\Component\Reflection\Fixture\ClassA');
-        $classReflection2 = ReflectionClass::factory('FSi\Component\Reflection\Fixture\ClassA');
+        $classReflection1 = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassA');
+        $classReflection2 = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassA');
         $this->assertSame($classReflection1, $classReflection2);
 
         $classReflection3 = $classReflection2->getMethod('privateMethod')->getDeclaringClass();
@@ -52,8 +55,8 @@ class SampleTest extends \PHPUnit_Framework_TestCase
     
     protected function _testClassGetProperties($filter = null)
     {
-        $fsiClassReflection = ReflectionClass::factory('FSi\Component\Reflection\Fixture\ClassA');
-        $classReflection    = new \ReflectionClass('FSi\Component\Reflection\Fixture\ClassA');
+        $fsiClassReflection = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassA');
+        $classReflection    = new \ReflectionClass('FSi\Component\Reflection\Tests\Fixture\ClassA');
 
         $fsiReflectionProperties  = isset($filter) ? $fsiClassReflection->getProperties($filter) : $fsiClassReflection->getProperties();
         $reflectionProperties     = isset($filter) ? $classReflection->getProperties($filter) : $classReflection->getProperties();
@@ -99,8 +102,8 @@ class SampleTest extends \PHPUnit_Framework_TestCase
     
     protected function _testClassGetMethods($filter = null)
     {
-        $fsiClassReflection = ReflectionClass::factory('FSi\Component\Reflection\Fixture\ClassA');
-        $classReflection    = new \ReflectionClass('FSi\Component\Reflection\Fixture\ClassA');
+        $fsiClassReflection = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassA');
+        $classReflection    = new \ReflectionClass('FSi\Component\Reflection\Tests\Fixture\ClassA');
         
         $fsiReflectionMethods  = isset($filter) ? $fsiClassReflection->getMethods($filter) : $fsiClassReflection->getMethods();
         $reflectionMethods     = isset($filter) ? $classReflection->getMethods($filter) : $classReflection->getMethods();  
@@ -121,11 +124,11 @@ class SampleTest extends \PHPUnit_Framework_TestCase
     
     public function testMethod()
     {
-        $methodReflection1 = ReflectionMethod::factory('FSi\Component\Reflection\Fixture\ClassA', 'protectedMethod');
-        $methodReflection2 = ReflectionMethod::factory('FSi\Component\Reflection\Fixture\ClassA', 'protectedMethod');
+        $methodReflection1 = ReflectionMethod::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'protectedMethod');
+        $methodReflection2 = ReflectionMethod::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'protectedMethod');
         $this->assertSame($methodReflection1, $methodReflection2);
 
-        $methodReflection3 = ReflectionClass::factory('FSi\Component\Reflection\Fixture\ClassA')->getMethod('protectedMethod');
+        $methodReflection3 = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassA')->getMethod('protectedMethod');
         $this->assertSame($methodReflection1, $methodReflection3);
 
         $obj = new ClassA('param');
@@ -135,11 +138,11 @@ class SampleTest extends \PHPUnit_Framework_TestCase
         $res = $methodReflection1->invoke($obj, 'foo', 'bar');
         $this->assertEquals($res, 'foo+bar');
 
-        $methodReflection5 = ReflectionMethod::factory('FSi\Component\Reflection\Fixture\ClassA', 'privateMethod');
+        $methodReflection5 = ReflectionMethod::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'privateMethod');
         $res = $methodReflection5->invoke($obj, 'foo', 'bar');
         $this->assertEquals($res, 'foo-bar');
 
-        $methodReflection6 = ReflectionMethod::factory('FSi\Component\Reflection\Fixture\ClassA', 'publicMethod');
+        $methodReflection6 = ReflectionMethod::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'publicMethod');
         $res = $methodReflection6->invoke($obj, 'foo', 'bar');
         $this->assertEquals($res, 'foo=bar');
     }
@@ -147,16 +150,16 @@ class SampleTest extends \PHPUnit_Framework_TestCase
     public function testInvalidMethod()
     {
         $this->setExpectedException('ReflectionException');
-        $methodReflection = ReflectionMethod::factory('FSi\Component\Reflection\Fixture\ClassA', 'invalidMethod');
+        $methodReflection = ReflectionMethod::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'invalidMethod');
     }
        
     public function testProperty()
     {
-        $propertyReflection1 = ReflectionProperty::factory('FSi\Component\Reflection\Fixture\ClassA', 'protectedProperty');
-        $propertyReflection2 = ReflectionProperty::factory('FSi\Component\Reflection\Fixture\ClassA', 'protectedProperty');
+        $propertyReflection1 = ReflectionProperty::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'protectedProperty');
+        $propertyReflection2 = ReflectionProperty::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'protectedProperty');
         $this->assertSame($propertyReflection1, $propertyReflection2);
 
-        $propertyReflection3 = ReflectionClass::factory('FSi\Component\Reflection\Fixture\ClassA')->getProperty('protectedProperty');
+        $propertyReflection3 = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassA')->getProperty('protectedProperty');
         $this->assertSame($propertyReflection1, $propertyReflection3);
 
         $obj = new ClassA('param');
@@ -167,12 +170,12 @@ class SampleTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals('foo', 'protectedProperty', $obj);
         $this->assertEquals('foo', $propertyReflection1->getValue($obj));
 
-        $propertyReflection5 = ReflectionProperty::factory('FSi\Component\Reflection\Fixture\ClassA', 'privateProperty');
+        $propertyReflection5 = ReflectionProperty::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'privateProperty');
         $propertyReflection5->setValue($obj, 'bar');
         $this->assertAttributeEquals('bar', 'privateProperty', $obj);
         $this->assertEquals('bar', $propertyReflection5->getValue($obj));
 
-        $propertyReflection6 = ReflectionProperty::factory('FSi\Component\Reflection\Fixture\ClassA', 'publicProperty');
+        $propertyReflection6 = ReflectionProperty::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'publicProperty');
         $propertyReflection6->setValue($obj, 'baz');
         $this->assertAttributeEquals('baz', 'publicProperty', $obj);
         $this->assertEquals('baz', $propertyReflection6->getValue($obj));
@@ -181,31 +184,31 @@ class SampleTest extends \PHPUnit_Framework_TestCase
     public function testInvalidProperty()
     {
         $this->setExpectedException('ReflectionException');
-        $propertyReflection = ReflectionProperty::factory('FSi\Component\Reflection\Fixture\ClassA', 'invalidProperty');
+        $propertyReflection = ReflectionProperty::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'invalidProperty');
     }
     
     public function testExceptionClass()
     {
         $this->setExpectedException('ReflectionException');
-        $reflectionClass = new ReflectionClass('FSi\Component\Reflection\Fixture\ClassA');
+        $reflectionClass = new ReflectionClass('FSi\Component\Reflection\Tests\Fixture\ClassA');
     }
 
     public function testExceptionProperty()
     {
         $this->setExpectedException('ReflectionException');
-        $reflectionProperty = new ReflectionProperty('FSi\Component\Reflection\Fixture\ClassA', 'protectedProperty');
+        $reflectionProperty = new ReflectionProperty('FSi\Component\Reflection\Tests\Fixture\ClassA', 'protectedProperty');
     }
 
     public function testExceptionMethod()
     {
         $this->setExpectedException('ReflectionException');
-        $reflectionMethod = new ReflectionMethod('FSi\Component\Reflection\Fixture\ClassA', 'protectedMethod');
+        $reflectionMethod = new ReflectionMethod('FSi\Component\Reflection\Tests\Fixture\ClassA', 'protectedMethod');
     }
     
     public function testClassInterfaces()
     {
-        $classFsiReflection = ReflectionClass::factory('FSi\Component\Reflection\Fixture\ClassA');
-        $classReflection    = new \ReflectionClass('FSi\Component\Reflection\Fixture\ClassA');
+        $classFsiReflection = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassA');
+        $classReflection    = new \ReflectionClass('FSi\Component\Reflection\Tests\Fixture\ClassA');
         
         $fsiClassInterfaces = $classFsiReflection->getInterfaces();
         $classInterfaces    = $classReflection->getInterfaces();
@@ -221,9 +224,9 @@ class SampleTest extends \PHPUnit_Framework_TestCase
     
     public function testGetParentClassPropertiesAndMethods()
     {
-        $publicProperty3     = ReflectionProperty::factory('FSi\Component\Reflection\Fixture\ClassA', 'publicProperty3');
-        $ClassAParent  = ReflectionClass::factory('FSi\Component\Reflection\Fixture\ClassAParent');
-        $ClassAParentParent  = ReflectionClass::factory('FSi\Component\Reflection\Fixture\ClassAParentParent');
+        $publicProperty3     = ReflectionProperty::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'publicProperty3');
+        $ClassAParent  = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassAParent');
+        $ClassAParentParent  = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassAParentParent');
         
         $ClassAParentProperties        = $ClassAParent->getProperties();
         $ClassAParentParentProperties  = $ClassAParentParent->getProperties();
@@ -248,9 +251,9 @@ class SampleTest extends \PHPUnit_Framework_TestCase
         
         
         
-        $publicMethod3     = ReflectionMethod::factory('FSi\Component\Reflection\Fixture\ClassA', 'publicMethod3');
-        $ClassAParent      = ReflectionClass::factory('FSi\Component\Reflection\Fixture\ClassAParent');
-        $ClassAParentParent  = ReflectionClass::factory('FSi\Component\Reflection\Fixture\ClassAParentParent');
+        $publicMethod3     = ReflectionMethod::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'publicMethod3');
+        $ClassAParent      = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassAParent');
+        $ClassAParentParent  = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassAParentParent');
         
         $ClassAParentMethods       = $ClassAParent->getMethods();
         $ClassAParentParentMethods = $ClassAParentParent->getMethods();
@@ -276,19 +279,19 @@ class SampleTest extends \PHPUnit_Framework_TestCase
     
     public function testGetParentClass()
     {
-        $classFsiReflection = ReflectionClass::factory('FSi\Component\Reflection\Fixture\ClassAParentParent');
+        $classFsiReflection = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassAParentParent');
         $parentClassFsiReflection = $classFsiReflection->getParentClass();
         
-        $classReflection = new \ReflectionClass('FSi\Component\Reflection\Fixture\ClassAParentParent');
+        $classReflection = new \ReflectionClass('FSi\Component\Reflection\Tests\Fixture\ClassAParentParent');
         $parentClassReflection = $classReflection->getParentClass();
 
         $this->assertSame($parentClassFsiReflection, $parentClassReflection);
         
         
-        $classFsiReflection1 = ReflectionClass::factory('FSi\Component\Reflection\Fixture\ClassA');
+        $classFsiReflection1 = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassA');
         $parentClassFsiReflection1 = $classFsiReflection1->getParentClass();
         
-        $classReflection1 = new \ReflectionClass('FSi\Component\Reflection\Fixture\ClassA');
+        $classReflection1 = new \ReflectionClass('FSi\Component\Reflection\Tests\Fixture\ClassA');
         $parentClassReflection1 = $classReflection1->getParentClass();
         
         $this->assertSame($parentClassFsiReflection1->name, $parentClassReflection1->name);

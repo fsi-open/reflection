@@ -17,6 +17,5 @@
         "psr-0": {
             "FSi\\Component\\Reflection": "lib/"
         }
-    },
-    "minimum-stability" : "dev"
+    }
 }

@@ -1,8 +1,6 @@
 <?php
 
-namespace FSi\Component\Reflection\Fixture;
-
-use FSi\Component\Reflection\Fixture\ClassB;
+namespace FSi\Component\Reflection\Tests\Fixture;
 
 interface ClassAInterface
 {
