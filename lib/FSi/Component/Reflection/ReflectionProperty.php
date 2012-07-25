@@ -29,7 +29,7 @@ class ReflectionProperty extends \ReflectionProperty
      * 
      * @param string|object $class
      * @param string $property
-     * @return ReflectionClass
+     * @return ReflectionProperty
      */
     public static function factory($class, $property = null)
     {

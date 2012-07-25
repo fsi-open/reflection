@@ -29,7 +29,7 @@ class ReflectionMethod extends \ReflectionMethod
      * 
      * @param string|object $class
      * @param string $property
-     * @return ReflectionClass
+     * @return ReflectionMethod
      */
     public static function factory($class, $method = null)
     {
