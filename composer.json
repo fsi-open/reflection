@@ -1,13 +1,16 @@
 {
-    "repositories": [ { "type": "composer", "url": "http://git.fsi.pl/" } ],
     "name": "fsi/reflection",
     "type": "library",
-    "description": "FSi Reflection Component",
+    "description": "FSi Reflection Component is an extension of built-in reflection classes in PHP 5.3 that saves a lot memory, thanks to factory design pattern.",
     "keywords": ["fsi", "component", "reflection"],
     "authors": [
         {
             "name": "Lukasz Cybula",
             "email": "lukasz@fsi.pl"
+        },
+        {
+            "name": "Norbert Orzechowicz",
+            "email": "norbert@fsi.pl"
         }
     ],
     "require": {
