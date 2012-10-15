@@ -3,6 +3,7 @@
     "type": "library",
     "description": "FSi Reflection Component is an extension of built-in reflection classes in PHP 5.3 that saves a lot memory, thanks to factory design pattern.",
     "keywords": ["fsi", "component", "reflection"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Lukasz Cybula",
