@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the FSi Component package.
+ *
+ * (c) Lukasz Cybula <lukasz@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FSi\Component\Reflection\Tests;
 
 use FSi\Component\Reflection\ReflectionClass;
@@ -28,18 +37,18 @@ class SampleTest extends \PHPUnit_Framework_TestCase
         $classReflection6 = ReflectionClass::factory($obj);
         $this->assertSame($classReflection2, $classReflection6);
     }
-     
+
     public function testClassGetProperties()
     {
         $filters = array(
-            ReflectionProperty::IS_STATIC, 
-            ReflectionProperty::IS_PUBLIC , 
-            ReflectionProperty::IS_PROTECTED, 
+            ReflectionProperty::IS_STATIC,
+            ReflectionProperty::IS_PUBLIC ,
+            ReflectionProperty::IS_PROTECTED,
             ReflectionProperty::IS_PRIVATE
         );
-        
+
         $filtersCombinations = $this->pc_array_power_set($filters);
-        
+
         foreach ($filtersCombinations as $combination) {
             $filter = null;
             foreach ($combination as $value) {
@@ -52,7 +61,7 @@ class SampleTest extends \PHPUnit_Framework_TestCase
             $this->_testClassGetProperties($filter);
         }
     }
-    
+
     protected function _testClassGetProperties($filter = null)
     {
         $fsiClassReflection = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassA');
@@ -68,7 +77,7 @@ class SampleTest extends \PHPUnit_Framework_TestCase
             $this->assertSame($reflectionPropertyNew, $reflectionProperty);
 
             $orgReflectionProperty = $reflectionProperties[$index];
-            
+
             $this->assertSame($orgReflectionProperty->name, $reflectionProperty->name);
             $this->assertSame($orgReflectionProperty->class, $reflectionProperty->class);
         }
@@ -77,16 +86,16 @@ class SampleTest extends \PHPUnit_Framework_TestCase
     public function testClassGetMethods()
     {
         $filters = array(
-            ReflectionMethod::IS_STATIC, 
-            ReflectionMethod::IS_PUBLIC , 
-            ReflectionMethod::IS_PROTECTED, 
+            ReflectionMethod::IS_STATIC,
+            ReflectionMethod::IS_PUBLIC ,
+            ReflectionMethod::IS_PROTECTED,
             ReflectionMethod::IS_PRIVATE,
             ReflectionMethod::IS_ABSTRACT,
             ReflectionMethod::IS_FINAL
         );
-        
+
         $filtersCombinations = $this->pc_array_power_set($filters);
-        
+
         foreach ($filtersCombinations as $combination) {
             $filter = null;
             foreach ($combination as $value) {
@@ -99,29 +108,29 @@ class SampleTest extends \PHPUnit_Framework_TestCase
             $this->_testClassGetMethods($filter);
         }
     }
-    
+
     protected function _testClassGetMethods($filter = null)
     {
         $fsiClassReflection = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassA');
         $classReflection    = new \ReflectionClass('FSi\Component\Reflection\Tests\Fixture\ClassA');
-        
+
         $fsiReflectionMethods  = isset($filter) ? $fsiClassReflection->getMethods($filter) : $fsiClassReflection->getMethods();
-        $reflectionMethods     = isset($filter) ? $classReflection->getMethods($filter) : $classReflection->getMethods();  
-        
+        $reflectionMethods     = isset($filter) ? $classReflection->getMethods($filter) : $classReflection->getMethods();
+
         $this->assertSame(count($fsiReflectionMethods), count($reflectionMethods));
-        
+
         foreach ($fsiReflectionMethods as $index => $reflectionMethod) {
-            
+
             $reflectionMethodNew = ReflectionMethod::factory($reflectionMethod->class, $reflectionMethod->name);
             $this->assertSame($reflectionMethodNew, $reflectionMethod);
 
             $orgReflectionMethod = $reflectionMethods[$index];
-            
+
             $this->assertSame($orgReflectionMethod->name, $reflectionMethod->name);
             $this->assertSame($orgReflectionMethod->class, $reflectionMethod->class);
         }
     }
-    
+
     public function testMethod()
     {
         $methodReflection1 = ReflectionMethod::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'protectedMethod');
@@ -152,7 +161,7 @@ class SampleTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('ReflectionException');
         $methodReflection = ReflectionMethod::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'invalidMethod');
     }
-       
+
     public function testProperty()
     {
         $propertyReflection1 = ReflectionProperty::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'protectedProperty');
@@ -186,7 +195,7 @@ class SampleTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('ReflectionException');
         $propertyReflection = ReflectionProperty::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'invalidProperty');
     }
-    
+
     public function testExceptionClass()
     {
         $this->setExpectedException('ReflectionException');
@@ -204,33 +213,33 @@ class SampleTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('ReflectionException');
         $reflectionMethod = new ReflectionMethod('FSi\Component\Reflection\Tests\Fixture\ClassA', 'protectedMethod');
     }
-    
+
     public function testClassInterfaces()
     {
         $classFsiReflection = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassA');
         $classReflection    = new \ReflectionClass('FSi\Component\Reflection\Tests\Fixture\ClassA');
-        
+
         $fsiClassInterfaces = $classFsiReflection->getInterfaces();
         $classInterfaces    = $classReflection->getInterfaces();
-        
+
         $this->assertSame(count($fsiClassInterfaces), count($classInterfaces));
-        
+
         foreach ($fsiClassInterfaces as $name => $interfaceReflection) {
             $orgInterface = $classInterfaces[$name];
             $this->assertEquals($orgInterface->name, $interfaceReflection->name);
         }
 
     }
-    
+
     public function testGetParentClassPropertiesAndMethods()
     {
         $publicProperty3     = ReflectionProperty::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'publicProperty3');
         $ClassAParent  = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassAParent');
         $ClassAParentParent  = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassAParentParent');
-        
+
         $ClassAParentProperties        = $ClassAParent->getProperties();
         $ClassAParentParentProperties  = $ClassAParentParent->getProperties();
-        
+
         $propertyExists = false;
         foreach ($ClassAParentProperties as $index => $parentProperty) {
             if ($parentProperty->name == $publicProperty3->name) {
@@ -239,7 +248,7 @@ class SampleTest extends \PHPUnit_Framework_TestCase
             }
         }
         $this->assertTrue($propertyExists);
-        
+
         $propertyExists = false;
         foreach ($ClassAParentParentProperties as $index => $parentParentProperty) {
             if ($parentParentProperty->name == $publicProperty3->name) {
@@ -248,25 +257,25 @@ class SampleTest extends \PHPUnit_Framework_TestCase
             }
         }
         $this->assertTrue($propertyExists);
-        
-        
-        
+
+
+
         $publicMethod3     = ReflectionMethod::factory('FSi\Component\Reflection\Tests\Fixture\ClassA', 'publicMethod3');
         $ClassAParent      = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassAParent');
         $ClassAParentParent  = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassAParentParent');
-        
+
         $ClassAParentMethods       = $ClassAParent->getMethods();
         $ClassAParentParentMethods = $ClassAParentParent->getMethods();
-        
+
         $methodExists = false;
         foreach ($ClassAParentMethods as $index => $parentMethod) {
             if ($parentMethod->name == $publicMethod3->name) {
                 $this->assertSame($parentMethod, $publicMethod3);
                 $methodExists = true;
             }
-        }       
+        }
         $this->assertTrue($methodExists);
-        
+
         $methodExists = false;
         foreach ($ClassAParentParentMethods as $index => $parentParentMethod) {
             if ($parentParentMethod->name == $publicMethod3->name) {
@@ -276,33 +285,33 @@ class SampleTest extends \PHPUnit_Framework_TestCase
         }
         $this->assertTrue($methodExists);
     }
-    
+
     public function testGetParentClass()
     {
         $classFsiReflection = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassAParentParent');
         $parentClassFsiReflection = $classFsiReflection->getParentClass();
-        
+
         $classReflection = new \ReflectionClass('FSi\Component\Reflection\Tests\Fixture\ClassAParentParent');
         $parentClassReflection = $classReflection->getParentClass();
 
         $this->assertSame($parentClassFsiReflection, $parentClassReflection);
-        
-        
+
+
         $classFsiReflection1 = ReflectionClass::factory('FSi\Component\Reflection\Tests\Fixture\ClassA');
         $parentClassFsiReflection1 = $classFsiReflection1->getParentClass();
-        
+
         $classReflection1 = new \ReflectionClass('FSi\Component\Reflection\Tests\Fixture\ClassA');
         $parentClassReflection1 = $classReflection1->getParentClass();
-        
+
         $this->assertSame($parentClassFsiReflection1->name, $parentClassReflection1->name);
     }
-    
+
     protected function pc_array_power_set($array) {
         $results = array(array( ));
         foreach ($array as $element)
             foreach ($results as $combination)
                 array_push($results, array_merge(array($element), $combination));
-    
+
         return $results;
     }
 }

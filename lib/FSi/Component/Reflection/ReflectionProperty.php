@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the FSi Component package.
+ *
+ * (c) Lukasz Cybula <lukasz@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FSi\Component\Reflection;
 
 class ReflectionProperty extends \ReflectionProperty
@@ -8,7 +17,7 @@ class ReflectionProperty extends \ReflectionProperty
 
     /**
      * Constructs a new ReflectionProperty object.
-     * 
+     *
      * @param string|object $class
      * @param string $name
      * @throws ReflectionException
@@ -21,12 +30,12 @@ class ReflectionProperty extends \ReflectionProperty
             throw new ReflectionException('ReflectionClass\' constructor cannot be called from outside the class');
         parent::__construct($class, $name);
     }
-    
+
     /**
      * Constructs a new ReflectionProperty object from property and class name.
      * If object already exists in cache it will taken from there instead of creating
      * new object
-     * 
+     *
      * @param string|object $class
      * @param string $property
      * @return ReflectionProperty
@@ -60,8 +69,8 @@ class ReflectionProperty extends \ReflectionProperty
     }
 
     /**
-     * Get class ReflectionObject using ReflectionClass::factory method. 
-     * 
+     * Get class ReflectionObject using ReflectionClass::factory method.
+     *
      * @return ReflectionClass
      */
     public function getDeclaringClass()

@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of the FSi Component package.
+ *
+ * (c) Lukasz Cybula <lukasz@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FSi\Component\Reflection;
 
 class ReflectionClass extends \ReflectionClass
@@ -7,7 +17,7 @@ class ReflectionClass extends \ReflectionClass
 
     /**
      * Constructs a new ReflectionClass object.
-     * 
+     *
      * @param string|object $class
      * @throws ReflectionException
      * @return ReflectionClass
@@ -21,10 +31,10 @@ class ReflectionClass extends \ReflectionClass
     }
 
     /**
-     * Constructs a new ReflectionClass object from class name and store it in cache. 
+     * Constructs a new ReflectionClass object from class name and store it in cache.
      * If object already exists in cache it will taken from there instead of creating
      * new object
-     * 
+     *
      * @param string|object $class
      * @return ReflectionClass
      */
@@ -39,8 +49,8 @@ class ReflectionClass extends \ReflectionClass
     }
 
     /**
-     * Get interfaces ReflectionObjects implemented by class 
-     * 
+     * Get interfaces ReflectionObjects implemented by class
+     *
      * @return array
      */
     public function getInterfaces()
@@ -54,7 +64,7 @@ class ReflectionClass extends \ReflectionClass
 
     /**
      * Get parent ReflectionClass object
-     * 
+     *
      * @return ReflectionClass|false
      */
     public function getParentClass()
@@ -67,8 +77,8 @@ class ReflectionClass extends \ReflectionClass
     }
 
     /**
-     * Get class ReflectionMethod object by method name if exists. 
-     * 
+     * Get class ReflectionMethod object by method name if exists.
+     *
      * @throws ReflectionException
      * @return ReflectionMethod
      */
@@ -87,8 +97,8 @@ class ReflectionClass extends \ReflectionClass
     }
 
     /**
-     * Get class ReflectionMethods objects array list. 
-     * 
+     * Get class ReflectionMethods objects array list.
+     *
      * @return array
      */
     public function getMethods($filter = null)
@@ -99,13 +109,13 @@ class ReflectionClass extends \ReflectionClass
         if (count($args)) {
             return $this->filter($methods, current($args));
         }
-        
-        return $methods;   
+
+        return $methods;
     }
 
     /**
-     * Get class ReflectionProperty object by property name if exists. . 
-     * 
+     * Get class ReflectionProperty object by property name if exists. .
+     *
      * @throws ReflectionException
      * @return ReflectionProperty
      */
@@ -113,10 +123,10 @@ class ReflectionClass extends \ReflectionClass
     {
         return ReflectionProperty::factory($this->name, $property);
     }
-    
+
     /**
      * Get class ReflectionProperty objects array list.
-     * 
+     *
      * @return array
      */
     public function getProperties($filter = null)
@@ -127,7 +137,7 @@ class ReflectionClass extends \ReflectionClass
         if (count($args)) {
             return $this->filter($properties, current($args));
         }
-        
+
         return $properties;
     }
 

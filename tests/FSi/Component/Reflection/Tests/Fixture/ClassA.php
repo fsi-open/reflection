@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the FSi Component package.
+ *
+ * (c) Lukasz Cybula <lukasz@fsi.pl>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace FSi\Component\Reflection\Tests\Fixture;
 
 interface ClassAInterface
@@ -10,7 +19,7 @@ interface ClassAInterface
 class ClassAParentParent
 {
     public $publicProperty3;
-    
+
     public function publicMethod3($paramE, $paramF)
     {
         return $paramE . '=' .$paramF;
@@ -19,8 +28,8 @@ class ClassAParentParent
 
 class ClassAParent extends ClassAParentParent
 {
-    public $publicProperty2; 
-    
+    public $publicProperty2;
+
     public function publicMethod2($paramE, $paramF)
     {
         return $paramE . '=' .$paramF;
